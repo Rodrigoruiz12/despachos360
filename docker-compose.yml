@@ -1,0 +1,9 @@
+services:
+  usuarios:
+    build: .
+    container_name: ms-despachos
+    ports:
+      - "8086:8086"
+    env_file:
+      - .env
+    restart: unless-stopped

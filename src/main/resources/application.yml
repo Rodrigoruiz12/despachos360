@@ -1,0 +1,22 @@
+server:
+  port: ${SERVER_PORT:8086}
+
+spring:
+  application:
+    name: ms-despachos
+  cloud:
+    azure:
+      active-directory:
+        enabled: true
+        profile:
+          tenant-id: dd140621-3398-4bfe-805b-9c162df51706
+        credential:
+          client-id: cb8b1711-d599-4a45-94d9-9251f15db61a
+        app-id-uri: api://cb8b1711-d599-4a45-94d9-9251f15db61a
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
