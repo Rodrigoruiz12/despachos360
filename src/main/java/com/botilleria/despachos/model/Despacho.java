@@ -1,9 +1,20 @@
-package com.botilleria.despachos.model;
+﻿package com.botilleria.despachos.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "despachos")
 public class Despacho {
+
+    @Id
     private String id;
+
+    @Column(name = "orden_id")
     private String ordenId;
+
+    @Column(name = "codigo_seguimiento")
     private String codigoSeguimiento;
+
     private String estado;
 
     public Despacho() {}
