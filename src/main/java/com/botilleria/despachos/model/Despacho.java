@@ -1,4 +1,4 @@
-﻿package com.botilleria.despachos.model;
+package com.botilleria.despachos.model;
 
 import jakarta.persistence.*;
 
