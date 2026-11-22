@@ -23,13 +23,29 @@ spring:
     port: 5672
     username: admin
     password: admin123
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: ${KAFKA_GROUP_ID:ms-despachos-group}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    listener:
+      missing-topics-fatal: false
+      auto-startup: ${KAFKA_ENABLED:true}
   cloud:
     azure:
       active-directory:
         enabled: false
 
-# Configuración Multi-Proveedor JWT (Azure Entra ID + AWS Cognito)
+# Configuración Kafka y Multi-Proveedor JWT (Azure Entra ID + AWS Cognito)
 app:
+  kafka:
+    enabled: ${KAFKA_ENABLED:true}
+    topic-pagos: ${KAFKA_TOPIC_PAGOS:pagos.alertas}
   security:
     jwt:
       providers:
