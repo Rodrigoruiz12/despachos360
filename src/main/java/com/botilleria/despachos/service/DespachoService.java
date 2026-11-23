@@ -12,6 +12,9 @@ public class DespachoService {
     @Autowired(required = false)
     private DespachoRepository despachoRepository;
 
+    @Autowired(required = false)
+    private KafkaDespachoProducer kafkaDespachoProducer;
+
     private final List<Despacho> despachosMemoria = new ArrayList<>();
 
     public Despacho crearDespacho(String ordenId) {
@@ -25,6 +28,9 @@ public class DespachoService {
             try {
                 despachoRepository.save(despacho);
                 System.out.println("Despacho persistido en Supabase para orden: " + ordenId + " | Tracking: " + despacho.getCodigoSeguimiento());
+                if (kafkaDespachoProducer != null) {
+                    kafkaDespachoProducer.publicarEventoDespacho("DESPACHO_CREADO", despacho);
+                }
                 return despacho;
             } catch (Exception e) {
                 System.err.println("Aviso conexion Supabase en despachos: " + e.getMessage());
@@ -33,6 +39,9 @@ public class DespachoService {
         
         despachosMemoria.add(despacho);
         System.out.println("Despacho creado en memoria para la orden: " + ordenId + " | Tracking: " + despacho.getCodigoSeguimiento());
+        if (kafkaDespachoProducer != null) {
+            kafkaDespachoProducer.publicarEventoDespacho("DESPACHO_CREADO", despacho);
+        }
         return despacho;
     }
 
